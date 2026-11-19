@@ -3,157 +3,62 @@ import { supabase } from './supabaseClient';
 
 export default function Predications() {
   const [predications, setPredications] = useState([]);
-  const [recherche, setRecherche] = useState('');
-  const [categorieActive, setCategorieActive] = useState('Toutes');
+  const [recherche, setRecherche] = useState("");
   const [chargement, setChargement] = useState(true);
 
   useEffect(() => {
-    async function chargerPredications() {
-      const { data, error } = await supabase
-        .from('sermons')
-        .select('*')
-        .eq('published', true);
-      if (!error) setPredications(data || []);
+    async function charger() {
+      const { data } = await supabase.from('sermons').select('*').eq('published', true);
+      if (data) setPredications(data);
       setChargement(false);
     }
-    chargerPredications();
+    charger();
   }, []);
 
-  const predicationsFiltrees = predications.filter((pred) => {
-    const correspondRecherche =
-      pred.title.toLowerCase().includes(recherche.toLowerCase()) ||
-      pred.preacher.toLowerCase().includes(recherche.toLowerCase());
-    const correspondCategorie =
-      categorieActive === 'Toutes' || pred.category === categorieActive;
-    return correspondRecherche && correspondCategorie;
-  });
+  const predicationsFiltrees = predications.filter(pred => 
+    pred.title.toLowerCase().includes(recherche.toLowerCase()) || 
+    pred.preacher.toLowerCase().includes(recherche.toLowerCase())
+  );
 
   return (
-    <div style={{ padding: '60px 20px', maxWidth: '1000px', margin: '0 auto' }}>
-      <h1
-        style={{
-          fontFamily: 'Georgia, serif',
-          color: '#0B1F4B',
-          fontSize: '36px',
-          marginBottom: '30px',
-        }}
-      >
-        Prédications & Enseignements
-      </h1>
-
-      <div
-        style={{
-          display: 'flex',
-          gap: '20px',
-          marginBottom: '40px',
-          flexWrap: 'wrap',
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Rechercher un titre ou un prédicateur..."
-          value={recherche}
-          onChange={(e) => setRecherche(e.target.value)}
-          style={{
-            flex: 1,
-            padding: '12px 20px',
-            borderRadius: '8px',
-            border: '1px solid #ccc',
-            fontSize: '16px',
-            minWidth: '250px',
-          }}
-        />
-
-        <div style={{ display: 'flex', gap: '10px' }}>
-          {['Toutes', 'Prédication', 'Enseignement', 'Louange'].map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setCategorieActive(cat)}
-              style={{
-                padding: '10px 20px',
-                borderRadius: '30px',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                backgroundColor:
-                  categorieActive === cat ? '#0B1F4B' : '#F5F6F8',
-                color: categorieActive === cat ? 'white' : '#3A4256',
-              }}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+    <div style={{ backgroundColor: '#F5F6F8', minHeight: '100vh' }}>
+      {/* BANNIÈRE BLEUE */}
+      <div style={{ backgroundColor: '#0B1F4B', padding: '60px 20px', textAlign: 'center' }}>
+        <h1 style={{ fontFamily: 'Georgia, serif', color: '#C9A227', fontSize: '36px', margin: 0 }}>
+          Prédications & Enseignements
+        </h1>
+        <p style={{ color: '#F5F6F8', marginTop: '10px', fontSize: '16px' }}>
+          Réécoutez les messages qui vous ont marqués.
+        </p>
       </div>
 
-      {chargement ? (
-        <p>Chargement des prédications...</p>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {predicationsFiltrees.length === 0 ? (
-            <p style={{ color: '#3A4256' }}>Aucune prédication trouvée.</p>
-          ) : (
-            predicationsFiltrees.map((pred) => (
-              <div
-                key={pred.id}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  backgroundColor: 'white',
-                  padding: '20px',
-                  borderRadius: '12px',
-                  boxShadow: '0 2px 10px rgba(11,31,75,0.05)',
-                  borderLeft: '4px solid #0B1F4B',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div>
-                    <span
-                      style={{
-                        color: '#C9A227',
-                        fontSize: '12px',
-                        fontWeight: 'bold',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {pred.category}
-                    </span>
-                    <h3
-                      style={{
-                        margin: '5px 0',
-                        color: '#0B1F4B',
-                        fontSize: '20px',
-                      }}
-                    >
-                      {pred.title}
-                    </h3>
-                    <p
-                      style={{ margin: 0, color: '#3A4256', fontSize: '14px' }}
-                    >
-                      {pred.preacher}
-                    </p>
-                  </div>
-                </div>
+      <div style={{ padding: '40px 20px', maxWidth: '800px', margin: '0 auto' }}>
+        
+        {/* Barre de recherche */}
+        <input 
+          type="text" 
+          placeholder="Rechercher un titre ou un prédicateur..." 
+          value={recherche}
+          onChange={(e) => setRecherche(e.target.value)}
+          style={{ width: '100%', padding: '15px 20px', borderRadius: '12px', border: '1px solid #ccc', fontSize: '16px', marginBottom: '30px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}
+        />
 
-                {/* LECTEUR AUDIO AJOUTÉ ICI */}
+        {chargement ? <p>Chargement...</p> : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {predicationsFiltrees.map(pred => (
+              <div key={pred.id} style={{ backgroundColor: 'white', padding: '25px', borderRadius: '16px', boxShadow: '0 4px 15px rgba(11,31,75,0.06)', borderLeft: '5px solid #0B1F4B' }}>
+                <span style={{ color: '#C9A227', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase' }}>{pred.category}</span>
+                <h3 style={{ margin: '8px 0', color: '#0B1F4B', fontSize: '22px' }}>{pred.title}</h3>
+                <p style={{ margin: 0, color: '#3A4256', fontSize: '15px', marginBottom: '15px' }}>{pred.preacher}</p>
+                
                 {pred.audio_url && (
-                  <audio
-                    controls
-                    src={pred.audio_url}
-                    style={{ width: '100%', marginTop: '15px', height: '40px' }}
-                  />
+                  <audio controls src={pred.audio_url} style={{ width: '100%', height: '40px' }} />
                 )}
               </div>
-            ))
-          )}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
