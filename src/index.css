@@ -1,25 +1,19 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Titre de l'onglet et description -->
-    <title>SOURCE DE VIE - La voix qui nourrit votre foi</title>
-    <meta name="description" content="Écoutez la radio chrétienne SOURCE DE VIE en direct : cultes, prédications, prières et louanges." />
+/* --- AMÉLIORATION POUR LES TÉLÉPHONES (MOBILE) --- */
+@media (max-width: 768px) {
+  /* On réduit la taille des grands titres */
+  h1 {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* On réduit la taille des sous-titres */
+  h2 {
+    font-size: 22px !important;
+  }
 
-    <!-- Configuration PWA (Installation sur téléphone) -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0B1F4B" />
-
-    <!-- Polices Google (Playfair Display pour les titres, Inter pour le texte) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+  /* On rend les liens du menu plus compacts et plus petits */
+  .nav-menu a {
+    font-size: 16px !important;
+    padding: 5px 0;
+  }
+}
