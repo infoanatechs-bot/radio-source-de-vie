@@ -1,0 +1,25 @@
+:root {
+  --sdv-navy: #0b1f4b;
+  --sdv-navy-700: #142a5c;
+  --sdv-gold: #c9a227;
+  --sdv-gold-600: #a8861c;
+  --sdv-white: #ffffff;
+  --sdv-surface: #f5f6f8;
+  --sdv-text: #1b2233;
+  --sdv-text-muted: #3a4256;
+  --sdv-success: #1e7a4d;
+  --sdv-error: #b3261e;
+  --sdv-font-display: 'Playfair Display', Georgia, serif;
+  --sdv-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+html {
+  font-family: var(--sdv-font-body);
+  color: var(--sdv-text);
+}
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--sdv-font-display);
+  color: var(--sdv-navy);
+}
