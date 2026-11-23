@@ -16,7 +16,11 @@ export default function LiveNow() {
         data-channelId="a3441219-9dfa-49c4-80cf-9ef521e27832"
         data-rendered="false"
         class="cstrEmbed"
-      ></div>
+      >
+        <a href="https://www.caster.fm">Shoutcast Hosting</a>
+        <a href="https://www.caster.fm">Stream Hosting</a>
+        <a href="https://www.caster.fm">Radio Server Hosting</a>
+      </div>
     `;
 
     const script = document.createElement('script');
