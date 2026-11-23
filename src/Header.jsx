@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 
 export default function Header() {
   const [menuOuvert, setMenuOuvert] = useState(false);
   const [session, setSession] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
@@ -14,15 +15,28 @@ export default function Header() {
   }, []);
 
   const fermerMenu = () => setMenuOuvert(false);
+
   const gererClicAdmin = () => {
     fermerMenu();
     navigate(session ? '/admin' : '/login');
   };
 
+  const ecouterEnDirect = () => {
+    fermerMenu();
+    const aller = () =>
+      document.getElementById('direct')?.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname === '/') {
+      aller();
+    } else {
+      navigate('/');
+      setTimeout(aller, 400);
+    }
+  };
+
   return (
     <header style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      padding: '15px 20px', 
+      padding: '15px 20px',
       backgroundColor: '#0B1F4B', // FOND BLEU NUIT
       boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
       position: 'sticky', top: 0, zIndex: 100, flexWrap: 'wrap', gap: '15px'
@@ -46,12 +60,12 @@ export default function Header() {
         <Link to="/predications" onClick={fermerMenu} style={{ textDecoration: 'none', color: '#F5F6F8', opacity: 0.9 }}>Prédications</Link>
         <Link to="/a-propos" onClick={fermerMenu} style={{ textDecoration: 'none', color: '#F5F6F8', opacity: 0.9 }}>À propos</Link>
         <Link to="/contact" onClick={fermerMenu} style={{ textDecoration: 'none', color: '#F5F6F8', opacity: 0.9 }}>Contact</Link>
-        
+
         <button onClick={gererClicAdmin} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '15px', fontWeight: 'bold', color: '#C9A227' }}>
           {session ? "Tableau de bord" : "Connexion"}
         </button>
 
-        <button style={{ backgroundColor: '#C9A227', color: '#0B1F4B', border: 'none', padding: '10px 20px', borderRadius: '30px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}>
+        <button onClick={ecouterEnDirect} style={{ backgroundColor: '#C9A227', color: '#0B1F4B', border: 'none', padding: '10px 20px', borderRadius: '30px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}>
           <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#B3261E', borderRadius: '50%' }}></span>
           ÉCOUTER EN DIRECT
         </button>

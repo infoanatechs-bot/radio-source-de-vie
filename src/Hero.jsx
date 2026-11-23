@@ -1,17 +1,19 @@
 import React from 'react';
 
 export default function Hero() {
+  const allerAuDirect = () => {
+    document.getElementById('direct')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section
       style={{
-        backgroundColor: '#0B1F4B' /* Bleu nuit */,
-        color: 'white',
+        backgroundColor: '#0B1F4B',
         padding: '100px 20px',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '20px',
       }}
     >
       <h1
@@ -35,6 +37,7 @@ export default function Hero() {
         Restez connectés à la parole de Dieu, où que vous soyez.
       </p>
       <button
+        onClick={allerAuDirect}
         style={{
           marginTop: '20px',
           backgroundColor: '#C9A227',

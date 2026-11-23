@@ -8,15 +8,37 @@ export default function LiveNow() {
     if (!container) return;
 
     container.innerHTML = `
-      <div data-type="newStreamPlayer" data-publicToken="f5ea614a-0bea-418d-870d-b5b20fed3ec2"></div>
+      <div
+        data-type="newStreamPlayer"
+        data-publicToken="f5ea614a-0bea-418d-870d-b5b20fed3ec2"
+        data-theme="light"
+        data-color="e81e4d"
+        data-channelId="a3441219-9dfa-49c4-80cf-9ef521e27832"
+        data-rendered="false"
+        class="cstrEmbed"
+      ></div>
     `;
 
-    // Si tu charges le script du widget Caster.fm dans index.html ou ici,
-    // il initialisera automatiquement la balise [data-type="newStreamPlayer"].
+    const script = document.createElement('script');
+    script.src = 'https://cdn.cloud.caster.fm//widgets/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      if (script.parentNode) script.parentNode.removeChild(script);
+    };
   }, []);
 
   return (
-    <section style={{ padding: '60px 20px', maxWidth: '1000px', margin: '0 auto' }}>
+    <section
+      id="direct"
+      style={{
+        padding: '60px 20px',
+        maxWidth: '1000px',
+        margin: '0 auto',
+        scrollMarginTop: '80px',
+      }}
+    >
       <h2 style={{ fontFamily: 'Georgia, serif', color: '#0B1F4B', fontSize: '28px', marginBottom: '20px' }}>
         À l'antenne
       </h2>
@@ -86,7 +108,6 @@ export default function LiveNow() {
             Diffusé depuis Caster.fm
           </p>
 
-          {/* Conteneur du lecteur Caster.fm de source-de-vie */}
           <div ref={widgetContainerRef} />
         </div>
       </div>
